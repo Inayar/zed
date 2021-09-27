@@ -16,8 +16,8 @@ PHRASES = {
     'Создается *** как экземпляр класс %%%.',
     '***.*** (@@@)':
     'Из *** получается функция ***, а затем и вызывается с параметрами self, @@@.',
-    '***.*** = \'***\'':
-    'Из *** получается атрибут ***, а затем устанавливается равным \'***\'.'
+    '***.*** = "***"':
+    'Из *** получается атрибут ***, а затем устанавливается равным "***".'
 }
 
 # тренировка запоминания фраз
@@ -40,8 +40,8 @@ def convert(snippet, phrase):
 
     for i in range(0, snippet.count('@@@')):
         param_count = random.randint(1, 3)
-        param_names.append(', '.join(
-        random.sample(WORDS, param_count)))
+        param_names.append(', '.join(random.sample(WORDS, param_count)))
+
 
     for sentence in snippet, phrase:
         result = sentence[:]

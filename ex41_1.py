@@ -21,7 +21,7 @@ PHRASES = {
 }
 
 # тренировка запоминания фраз
-if len(sys.argv) == 2 and sys.argv[l] == "russian":
+if len(sys.argv) == 2 and sys.argv[1] == "russian":
     PHRASE_FIRST = True
 else:
     PHRASE_FIRST = False

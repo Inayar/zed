@@ -2,12 +2,14 @@ from sys import exit
 from random import randint
 from textwrap import dedent
 
+
 class Scene(object):
 
     def enter(self):
         print('Эта сцена еще не настроена.')
         print('Создайте подкласс и реализуйте функцию enter()')
         exit(1)
+
 
 class Engine(object):
 
@@ -25,19 +27,19 @@ class Engine(object):
         # не забудь вывести последнюю сцену
         current_scene.enter()
 
+
 class Death(Scene):
 
-    quips = [
-    'Ты погиб. Как это ни печально.',
-    'Твоя мать будет грустить по тебе... надо было быть умнее.',
-    'Надо же было быть таким придурком.',
-    'Даже мой маленький щенок соображает лучше.',
-    'Когда ж ты повзрослеешь, как говорил твой папка.'
-    ]
+    quips = ['Ты погиб. Как это ни печально.',
+             'Твоя мать будет грустить по тебе... надо было быть умнее.',
+             'Надо же было быть таким придурком.',
+             'Даже мой маленький щенок соображает лучше.',
+             'Когда ж ты повзрослеешь, как говорил твой папка.']
 
     def enter(self):
         print(Death.quips[randint(0, len(self.quips)-1)])
         exit(1)
+
 
 class CentralCorridor(Scene):
 
@@ -56,9 +58,13 @@ class CentralCorridor(Scene):
             вытаскивает бластер, чтобы отправить тебя к праотцам.
         '''))
 
-        action = input('> ')
+        action = input(dedent('''
+                        > 1. Стрелять!
+                        > 2. Проскочить!
+                        > 3. Пошутить!
+                        Твой выбор > '''))
 
-        if action == 'стрелять!':
+        if action == '1':
             print(dedent('''
                 Ты быстро выхватываешь бластер и начинаешь палить по
                 готону. Его клоунский наряд крутится на теле, мешая
@@ -72,7 +78,7 @@ class CentralCorridor(Scene):
             '''))
             return 'death'
 
-        elif action == 'проскочить!':
+        elif action == '2':
             print(dedent('''
                 Словно боксер мирового класса, ты уворачиваешься и
                 проскакиваешь мимо готона, краем глаза замечая, что
@@ -84,7 +90,7 @@ class CentralCorridor(Scene):
             '''))
             return 'death'
 
-        elif action == 'пошутить!':
+        elif action == '3':
             print(dedent('''
                 К счастью, ты знаком с культурой готонов и знаешь, что
                 может их рассмешить. Ты рассказываешь бородатый
@@ -118,11 +124,11 @@ class LaserWeaponArmory(Scene):
             Учти, что код состоит из 3 цифр.
         '''))
 
-        code = f'{randint(1, 9)}{randint(1, 9)}{randint(1, 9)}'
+        code = '123'
         guess = input('> ')
         guesses = 0
 
-        while guess != code and guesses < 10:
+        while guess != code and guesses < 2:
             print('ВЖИИИИИИК!')
             guesses += 1
             guess = input('[keypad]> ')
@@ -142,6 +148,8 @@ class LaserWeaponArmory(Scene):
                 в оружейно лавке, пока наконец готоны не взрывают
                 корабль выстрелом со своего судна и ты не умираешь.
             '''))
+        return 'death'
+
 
 class TheBridge(Scene):
 
@@ -155,10 +163,13 @@ class TheBridge(Scene):
             чтобы ты взорвал ее. Преимущество явно на твоей стороне.
         '''))
 
-        action = input('> ')
+        action = input(dedent('''
+                        > 1. Бросить бомбу!
+                        > 2. Установить бомбу!
+                        Твой выбор > '''))
 
-        if sction == 'бросить бомбу':
-            print(dednt('''
+        if action == '1':
+            print(dedent('''
                 Ты в панике активируешь бомбу и бросаешь ее в толпу
                 готонов, а затем прыгаешь к двери шлюза. Сразу
                 после этого один из готонов стреляет тебе в спину.
@@ -168,7 +179,7 @@ class TheBridge(Scene):
             '''))
             return 'death'
 
-        elif acrion == 'установить бомбу':
+        elif action == '2':
             print(dedent('''
                 Ты указываешь бластером на бомбу в твоих руках.
                 Готоны поднимают лапы вверх и в страхе потеют.
@@ -186,6 +197,7 @@ class TheBridge(Scene):
             print('Так нельзя поступить!')
             return 'the_bridge'
 
+
 class EscapePod(Scene):
 
     def enter(self):
@@ -199,12 +211,11 @@ class EscapePod(Scene):
             Капсулу под каким номером ты вибараешь?
         '''))
 
-        good_pod = randint(1, 5)
+        good_pod = 1
         guess = input('[pod #]> ')
 
-
         if int(guess) != good_pod:
-            print(dedent('''
+            print(dedent(f'''
                 Ты запрыгиваешь в капсулу {guess} и нажимаешь кнопку
                 отстыковки. Капсула вылетает в космическое
                 пространство, а затем взрывается с яркой вспышкой,
@@ -213,7 +224,7 @@ class EscapePod(Scene):
             return 'death'
 
         else:
-            print(dedent('''
+            print(dedent(f'''
                 Ты запрыгиваешь в капсулу {guess} и нажимаешь
                 кнопку отстыковки. Капсула вылетает в космическое
                 пространство, а затем отправляется к планете
@@ -224,11 +235,13 @@ class EscapePod(Scene):
             '''))
             return 'finished'
 
+
 class Finished(Scene):
 
     def enter(self):
         print('Ты победил! Отличная работа.')
         return 'finished'
+
 
 class Map(object):
 
